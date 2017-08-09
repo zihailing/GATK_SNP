@@ -1,0 +1,1 @@
+/usr/bin/java -Xmx30G -Djava.io.tmpdir=/home/hlzi -jar /share/apps/prog/picard-tools-2.4.1/picard.jar MarkDuplicates I=FP1.sort.bam O=FP1.sort.dedup.bam M=metrics.txt MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000
