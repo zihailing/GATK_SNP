@@ -2,4 +2,7 @@
 /usr/bin/java -Xmx30G -Djava.io.tmpdir=/home/hlzi -jar /share/apps/prog/picard-tools-2.4.1/picard.jar MarkDuplicates I=FP1.sort.bam O=FP1.sort.dedup.bam M=metrics.txt MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 CREATE_INDEX=true
 #######fasta_index###############
 java -jar /share/apps/prog/picard-tools-2.4.1/picard.jar CreateSequenceDictionary R=/home/hlzi/data_old_sever/zihailing/Cucumber/Cucumber.fa O=/home/hlzi/data_old_sever/zihailing/Cucumber/Cucumber.dict
+#######addRG_header_of_bam#######
+java -jar /share/apps/prog/picard-tools-2.4.1/picard.jar AddOrReplaceReadGroups INPUT=FP1.sort.dedup.bam OUTPUT=FP1.sort.dedup.addRG.bam RGID=x1 RGLB= library1 RGPL=illumina RGPU=xxx1 RGSM=FP1 CREATE_INDEX=true
 #######call_variant##############
+/usr/bin/java -Xmx30G -Djava.io.tmpdir=/home/hlzi -jar /share/apps/prog/GATK/GenomeAnalysisTK.jar -T HaplotypeCaller -R /home/hlzi/data_old_sever/zihailing/Cucumber/Cucumber.fa -I FP1.sort.dedup.addRG.bam --genotyping_mode DISCOVERY -stand_emit_conf 10 -stand_call_conf 30 -o FP1.GATK.vcf
