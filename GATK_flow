@@ -6,6 +6,8 @@ java -jar /share/apps/prog/picard-tools-2.4.1/picard.jar CreateSequenceDictionar
 java -jar /share/apps/prog/picard-tools-2.4.1/picard.jar AddOrReplaceReadGroups INPUT=FP1.sort.dedup.bam OUTPUT=FP1.sort.dedup.addRG.bam RGID=x1 RGLB= library1 RGPL=illumina RGPU=xxx1 RGSM=FP1 CREATE_INDEX=true
 #######call_variant##############
 /usr/bin/java -Xmx30G -Djava.io.tmpdir=/home/hlzi -jar /share/apps/prog/GATK/GenomeAnalysisTK.jar -T HaplotypeCaller -R /home/hlzi/data_old_sever/zihailing/Cucumber/Cucumber.fa -I FP1.sort.dedup.addRG.bam --genotyping_mode DISCOVERY -stand_emit_conf 10 -stand_call_conf 30 -o FP1.GATK.vcf
+#######variant_to_table###########
+java -jar /share/apps/prog/GATK/GenomeAnalysisTK.jar -R ~/data_old_sever/zihailing/Cucumber/Cucumber.fa -T VariantsToTable  -V FP1.GATK.SNP.vcf -F DP -F FS -F MQ -F MQRankSum -F QD -F ReadPosRankSum -F SOR -o FP1.GATK.SNP.table -AMD
 #######filter_variant#############
 /usr/bin/java -Xmx30G -Djava.io.tmpdir=/home/hlzi -jar /share/apps/prog/GATK/GenomeAnalysisTK.jar -T SelectVariants -R /home/hlzi/data_old_sever/zihailing/Cucumber/Cucumber.fa -V FP1.GATK.vcf -selectType SNP -o FP1.GATK.SNP.vcf
 /usr/bin/java -Xmx30G -Djava.io.tmpdir=/home/hlzi -jar /share/apps/prog/GATK/GenomeAnalysisTK.jar -T VariantFiltration -R /home/hlzi/data_old_sever/zihailing/Cucumber/Cucumber.fa -V FP1.GATK.SNP.vcf --filterExpression "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0" --filterName "my_snp_filter" -o FP1.GATK.SNP.filter.vcf
